@@ -1,0 +1,7 @@
+obligations:
+  - name: Same Site Template (A -> B)
+    type: achievement
+    trigger: MATCH(PageName == 'A')
+    requirement: MATCH(PageName == 'B')
+    deadline: "false"
+    domain: [CustomerID]

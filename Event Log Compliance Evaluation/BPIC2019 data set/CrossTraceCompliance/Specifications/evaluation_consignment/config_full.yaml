@@ -1,0 +1,25 @@
+filter: MATCHONCE(ItemType == 'Consignment')
+
+obligations:
+  - name: (Create Purchase Order Item -> Record Goods Receipt, Single=False)
+    type: maintenance
+    trigger: MATCH(Event == 'Record Goods Receipt')
+    requirement: >
+      INCDEC(
+        Event == 'Create Purchase Order Item',
+        Event == 'Record Goods Receipt'
+      ) >= 0
+    deadline: "false"
+    domain: [Key]
+
+  - name: (Create Purchase Order Item -> Record Goods Receipt, Single=True)
+    type: achievement
+    trigger: MATCH(Event == 'Record Goods Receipt')
+    requirement: >
+      MATCH(Event == 'Create Purchase Order Item') &&
+      BEFORE(
+        MATCH(Event == 'Create Purchase Order Item'),
+        MATCH(Event == 'Record Goods Receipt')
+      )
+    deadline: "false"
+    domain: [Key]

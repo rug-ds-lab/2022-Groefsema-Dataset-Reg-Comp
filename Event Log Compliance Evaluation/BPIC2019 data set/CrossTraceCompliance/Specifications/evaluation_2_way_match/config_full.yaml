@@ -1,0 +1,16 @@
+filter: >
+  MATCHONCE(ItemCategory == '2-way match')
+
+obligations:
+  - name: (Record Invoice Receipt -> Clear Invoice, Single=False)
+    type: maintenance
+    trigger: > 
+      MATCH(Event == 'Clear Invoice') && 
+      ~MATCH(Event == 'Change Approval for Purchase Order')
+    requirement: >
+      INCDEC(
+        Event == 'Record Invoice Receipt',
+        Event == 'Clear Invoice'
+      ) >= 0
+    deadline: "false"
+    domain: [Key]

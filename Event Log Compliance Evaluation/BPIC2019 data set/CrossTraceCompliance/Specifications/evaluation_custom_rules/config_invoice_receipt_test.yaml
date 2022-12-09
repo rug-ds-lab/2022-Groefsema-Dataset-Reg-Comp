@@ -1,0 +1,12 @@
+obligations:
+  - name: Invoice Receipt
+    type: achievement
+    filter: MATCHONCE(ItemType != 'Service' && ItemCategory == '3-way match, invoice after GR')
+    trigger: >
+      MATCH(Event == 'Record Invoice Receipt') &&
+      MATCH(Event == 'Vendor creates invoice')
+    requirement: >
+      END() && 
+      LAST(Amount, Event == 'Record Invoice Receipt') == LAST(Amount, Event == 'Vendor creates invoice')
+    deadline: "false"
+    domain: [PurchasingDocument, Item]

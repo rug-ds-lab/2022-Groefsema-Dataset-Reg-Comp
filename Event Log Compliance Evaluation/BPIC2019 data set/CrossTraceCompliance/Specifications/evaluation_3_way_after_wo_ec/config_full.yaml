@@ -1,0 +1,75 @@
+filter: > 
+  MATCHONCE(
+    ItemCategory == '3-way match, invoice after GR' && 
+    DocumentType != 'EC Purchase order'
+  )
+
+obligations:
+  - name: (Vendor creates invoice -> Record Invoice Receipt, Single=True)
+    type: achievement
+    trigger: MATCH(Event == 'Record Invoice Receipt')
+    requirement: >
+      MATCH(Event == 'Vendor creates invoice') &&
+      BEFORE(
+        MATCH(Event == 'Vendor creates invoice'),
+        MATCH(Event == 'Record Invoice Receipt')
+      )
+    deadline: "false"
+    domain: [Key]
+
+  - name: (Record Goods Receipt -> Clear Invoice, Single=False)
+    type: maintenance
+    trigger: MATCH(Event == 'Clear Invoice')
+    requirement: >
+      INCDEC(
+        Event == 'Record Goods Receipt',
+        Event == 'Clear Invoice'
+      ) >= 0
+    deadline: "false"
+    domain: [Key]
+
+  - name: (Record Invoice Receipt -> Clear Invoice, Single=False)
+    type: maintenance
+    trigger: MATCH(Event == 'Clear Invoice')
+    requirement: >
+      INCDEC(
+        Event == 'Record Invoice Receipt',
+        Event == 'Clear Invoice'
+      ) >= 0
+    deadline: "false"
+    domain: [Key]
+
+  - name: (Record Goods Receipt -> Record Invoice Receipt, Single=False)
+    type: maintenance
+    trigger: MATCH(Event == 'Record Invoice Receipt')
+    requirement: >
+      INCDEC(
+        Event == 'Record Goods Receipt',
+        Event == 'Record Invoice Receipt'
+      ) >= 0
+    deadline: "false"
+    domain: [Key]
+
+  - name: (Create Purchase Order Item -> Change Approval for Purchase Order, Single=True)
+    type: achievement
+    trigger: MATCH(Event == 'Change Approval for Purchase Order')
+    requirement: >
+      MATCH(Event == 'Create Purchase Order Item') &&
+      BEFORE(
+        MATCH(Event == 'Create Purchase Order Item'),
+        MATCH(Event == 'Change Approval for Purchase Order')
+      )
+    deadline: "false"
+    domain: [Key]
+
+  - name: (Create Purchase Order Item -> Vendor creates invoice, Single=True)
+    type: achievement
+    trigger: MATCH(Event == 'Vendor creates invoice')
+    requirement: >
+      MATCH(Event == 'Create Purchase Order Item') &&
+      BEFORE(
+        MATCH(Event == 'Create Purchase Order Item'),
+        MATCH(Event == 'Vendor creates invoice')
+      )
+    deadline: "false"
+    domain: [Key]

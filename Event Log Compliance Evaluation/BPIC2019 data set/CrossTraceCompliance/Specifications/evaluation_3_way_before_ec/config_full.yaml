@@ -1,0 +1,75 @@
+filter: > 
+  MATCHONCE(
+    ItemCategory == '3-way match, invoice before GR' && 
+    DocumentType == 'EC Purchase order'
+  )
+
+obligations:
+  - name: (Record Invoice Receipt -> Clear Invoice, Single=False)
+    type: maintenance
+    trigger: MATCH(Event == 'Clear Invoice')
+    requirement: >
+      INCDEC(
+        Event == 'Record Invoice Receipt',
+        Event == 'Clear Invoice'
+      ) >= 0
+    deadline: "false"
+    domain: [Key]
+
+  - name: (Record Goods Receipt -> Record Invoice Receipt, Single=False)
+    type: maintenance
+    trigger: MATCH(Event == 'Record Invoice Receipt')
+    requirement: >
+      INCDEC(
+        Event == 'Record Goods Receipt',
+        Event == 'Record Invoice Receipt'
+      ) >= 0
+    deadline: "false"
+    domain: [Key]
+
+  - name: (Record Goods Receipt -> Clear Invoice, Single=False)
+    type: maintenance
+    trigger: MATCH(Event == 'Clear Invoice')
+    requirement: >
+      INCDEC(
+        Event == 'Record Goods Receipt',
+        Event == 'Clear Invoice'
+      ) >= 0
+    deadline: "false"
+    domain: [Key]
+
+  - name: (Record Goods Receipt -> Clear Invoice, Single=True)
+    type: achievement
+    trigger: MATCH(Event == 'Clear Invoice')
+    requirement: >
+      MATCH(Event == 'Record Goods Receipt') &&
+      BEFORE(
+        MATCH(Event == 'Record Goods Receipt'),
+        MATCH(Event == 'Clear Invoice')
+      )
+    deadline: "false"
+    domain: [Key]
+
+  - name: (Vendor creates invoice -> Record Invoice Receipt, Single=True)
+    type: achievement
+    trigger: MATCH(Event == 'Record Invoice Receipt')
+    requirement: >
+      MATCH(Event == 'Vendor creates invoice') &&
+      BEFORE(
+        MATCH(Event == 'Vendor creates invoice'),
+        MATCH(Event == 'Record Invoice Receipt')
+      )
+    deadline: "false"
+    domain: [Key]
+
+  - name: (Set Payment Block -> Remove Payment Block, Single=True)
+    type: achievement
+    trigger: MATCH(Event == 'Remove Payment Block')
+    requirement: >
+      MATCH(Event == 'Set Payment Block') &&
+      BEFORE(
+        MATCH(Event == 'Set Payment Block'),
+        MATCH(Event == 'Remove Payment Block')
+      )
+    deadline: "false"
+    domain: [Key]

@@ -1,0 +1,7 @@
+violations:
+  - obligation: Invoice Receipt
+    domain: []
+  - obligation: Max Open Order Per User
+    domain: []
+  - obligation: Max PO Lifecycle
+    domain: []

@@ -1,0 +1,7 @@
+obligations:
+  - name: Cross Trace Split Template
+    type: achievement
+    trigger: MATCH(PageName == 'B')
+    requirement: COUNTIF(PageName == 'A') - COUNTIF(PageName == 'B') >= 0
+    deadline: false
+    domain: [OfficeU]

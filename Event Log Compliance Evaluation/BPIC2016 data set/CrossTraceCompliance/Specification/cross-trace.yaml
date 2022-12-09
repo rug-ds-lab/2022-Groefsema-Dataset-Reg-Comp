@@ -1,0 +1,11 @@
+obligations:
+  - name: Cross Trace Template
+    type: achievement
+    trigger: MATCH(PageName == 'B')
+    requirement: >
+      INCDEC(
+        PageName == 'A',
+        PageName == 'B'
+      ) >= 0
+    deadline: false
+    domain: [OfficeU]
