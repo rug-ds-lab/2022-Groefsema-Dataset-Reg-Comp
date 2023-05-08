@@ -1,7 +1,7 @@
 obligations:
   - name: Cross Trace Template
     type: achievement
-    trigger: MATCH(PageName == 'B')
+    trigger: true
     requirement: >
       INCDEC(
         PageName == 'A',

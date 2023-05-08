@@ -1,0 +1,56 @@
+attributeMap:
+  - label: Item
+    type: integer
+
+  - label: DocumentType
+    type: string
+
+  - label: ItemType
+    type: string
+
+  - label: ItemCategory
+    type: string
+  
+  - label: Vendor
+    type: string
+
+  - label: GrBased
+    type: boolean
+
+  - label: GoodsReceipt
+    type: boolean
+
+  - label: PurchasingDocument
+    type: string
+
+  - label: User
+    type: string
+
+  - label: Event
+    type: string
+
+  - label: Amount
+    type: integer
+  
+  - label: Timestamp
+    type: timestamp
+    properties:
+      format: "yyyy-MM-dd'T'HH:mm:ss[.SSS][.SS]XXXXX"
+
+  - label: Key
+    type: string
+
+parserOptions:
+  timestampAttribute: Timestamp
+  relabel:
+    Document Type: DocumentType
+    Item Type: ItemType
+    Item Category: ItemCategory
+    Name: Vendor
+    Purchasing Document: PurchasingDocument
+    Cumulative net worth (EUR): Amount
+    concept:name: Event
+    GR-Based Inv. Verif.: GrBased
+    Goods Receipt: GoodsReceipt
+    time:timestamp: Timestamp
+    trace/concept:name: Key

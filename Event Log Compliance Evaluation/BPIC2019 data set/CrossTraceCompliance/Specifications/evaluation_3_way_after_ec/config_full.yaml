@@ -7,7 +7,7 @@ filter: >
 obligations:
   - name: (Record Goods Receipt -> Clear Invoice, Single=False)
     type: maintenance
-    trigger: MATCH(Event == 'Clear Invoice')
+    trigger: "true"
     requirement: >
       INCDEC(
         Event == 'Record Goods Receipt',
@@ -18,7 +18,7 @@ obligations:
 
   - name: (Record Invoice Receipt -> Clear Invoice, Single=False)
     type: maintenance
-    trigger: MATCH(Event == 'Clear Invoice')
+    trigger: "true"
     requirement: >
       INCDEC(
         Event == 'Record Invoice Receipt',
@@ -28,20 +28,16 @@ obligations:
     domain: [Key]
 
   - name: (Record Goods Receipt -> Clear Invoice, Single=True)
-    type: achievement
+    type: maintenance
     trigger: MATCH(Event == 'Clear Invoice')
     requirement: >
-      MATCH(Event == 'Record Goods Receipt') &&
-      BEFORE(
-        MATCH(Event == 'Record Goods Receipt'),
-        MATCH(Event == 'Clear Invoice')
-      )
-    deadline: "false"
+      MATCH(Event == 'Record Goods Receipt')
+    deadline: MATCH(Event == 'Record Goods Receipt')
     domain: [Key]
 
   - name: (Record Goods Receipt -> Record Invoice Receipt, Single=False)
     type: maintenance
-    trigger: MATCH(Event == 'Record Invoice Receipt')
+    trigger: "true"
     requirement: >
       INCDEC(
         Event == 'Record Goods Receipt',
@@ -51,37 +47,25 @@ obligations:
     domain: [Key]
 
   - name: (Record Invoice Receipt -> Clear Invoice, Single=True)
-    type: achievement
+    type: maintenance
     trigger: MATCH(Event == 'Clear Invoice')
     requirement: >
-      MATCH(Event == 'Record Invoice Receipt') &&
-      BEFORE(
-        MATCH(Event == 'Record Invoice Receipt'),
-        MATCH(Event == 'Clear Invoice')
-      )
-    deadline: "false"
+      MATCH(Event == 'Record Invoice Receipt')
+    deadline: MATCH(Event == 'Record Invoice Receipt')
     domain: [Key]
 
   - name: (Vendor creates invoice -> Record Invoice Receipt, Single=True)
-    type: achievement
+    type: maintenance
     trigger: MATCH(Event == 'Record Invoice Receipt')
     requirement: >
-      MATCH(Event == 'Vendor creates invoice') &&
-      BEFORE(
-        MATCH(Event == 'Vendor creates invoice'),
-        MATCH(Event == 'Record Invoice Receipt')
-      )
-    deadline: "false"
+      MATCH(Event == 'Vendor creates invoice')
+    deadline: MATCH(Event == 'Vendor creates invoice')
     domain: [Key]
 
   - name: (Create Purchase Order Item -> Vendor creates invoice, Single=True)
-    type: achievement
+    type: maintenance
     trigger: MATCH(Event == 'Vendor creates invoice')
     requirement: >
-      MATCH(Event == 'Create Purchase Order Item') &&
-      BEFORE(
-        MATCH(Event == 'Create Purchase Order Item'),
-        MATCH(Event == 'Vendor creates invoice')
-      )
-    deadline: "false"
+      MATCH(Event == 'Create Purchase Order Item')
+    deadline: MATCH(Event == 'Create Purchase Order Item')
     domain: [Key]

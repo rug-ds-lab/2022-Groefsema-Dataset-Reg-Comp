@@ -4,13 +4,11 @@ filter: >
 obligations:
   - name: (Record Invoice Receipt -> Clear Invoice, Single=False)
     type: maintenance
-    trigger: > 
-      MATCH(Event == 'Clear Invoice') && 
-      ~MATCH(Event == 'Change Approval for Purchase Order')
+    trigger: "true"
     requirement: >
       INCDEC(
         Event == 'Record Invoice Receipt',
         Event == 'Clear Invoice'
       ) >= 0
-    deadline: "false"
+    deadline: MATCH(Event == 'Change Approval for Purchase Order')
     domain: [Key]

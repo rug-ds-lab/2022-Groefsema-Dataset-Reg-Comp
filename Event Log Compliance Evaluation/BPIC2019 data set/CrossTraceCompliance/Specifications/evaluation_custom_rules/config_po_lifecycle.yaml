@@ -1,15 +1,16 @@
 obligations:
   - name: Max PO Lifecycle
-    type: achievement
+    type: maintenance
     filter: MATCHONCE(ItemType != 'Service')
     trigger: >
-      MATCH(Event == 'Clear Invoice') &&
-      MATCH(Event == 'Vendor creates invoice')
-    requirement: >
-      END() && 
       DAYS_BETWEEN(
-        MATCH(Event == 'Vendor creates invoice'), 
-        MATCH(Event == 'Clear Invoice')
+        Event == 'Vendor creates invoice', 
+       Event == 'Clear Invoice'
+      ) >= 0
+    requirement: >
+      DAYS_BETWEEN(
+       Event == 'Vendor creates invoice', 
+       Event == 'Clear Invoice'
       ) < 21
-    deadline: "false"
+    deadline: "true"
     domain: [PurchasingDocument, Item]

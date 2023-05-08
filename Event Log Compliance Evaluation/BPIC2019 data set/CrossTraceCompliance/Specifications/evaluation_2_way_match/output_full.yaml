@@ -1,3 +1,0 @@
-violations:
-  - obligation: (Record Invoice Receipt -> Clear Invoice, Single=False)
-    domain: []

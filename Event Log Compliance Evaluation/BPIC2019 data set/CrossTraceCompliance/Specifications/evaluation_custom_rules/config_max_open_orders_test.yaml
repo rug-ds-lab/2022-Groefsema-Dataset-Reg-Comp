@@ -1,8 +1,7 @@
 obligations:
   - name: Max Open Order Per User
     type: maintenance
-    trigger: >
-      MATCH(Event == 'Vendor creates invoice')
+    trigger: "true"
     requirement: >
       COUNTIF(Event == 'Vendor creates invoice') -
       COUNTIF(Event == 'Clear Invoice') -

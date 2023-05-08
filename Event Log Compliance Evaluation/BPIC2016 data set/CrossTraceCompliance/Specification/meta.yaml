@@ -1,0 +1,38 @@
+attributeMap:
+  - label: CustomerID
+    type: integer
+
+  - label: AgeCategory
+    type: string
+
+  - label: Gender
+    type: string
+
+  - label: OfficeU
+    type: integer 
+
+  - label: OfficeW
+    type: integer 
+
+  - label: SessionID
+    type: integer
+
+  - label: VHOST
+    type: string
+
+  - label: PageName
+    type: string
+  
+  - label: Timestamp
+    type: timestamp
+    properties:
+      format: "yyyy-MM-dd HH:mm:ss[.SSSSSSSSS]"
+
+parserOptions:
+  timestampAttribute: Timestamp
+  delimiter: ";"
+  relabel:
+    Office_U: OfficeU
+    Office_W: OfficeW
+    PAGE_NAME: PageName
+    TIMESTAMP: Timestamp

@@ -32,64 +32,29 @@
   <h3 align="center">Dataset Complete Regulatory Compliance</h3>
 
   <p align="center">
-Dataset related to the evaluation of the paper <em>"Complete and Cross-Instance Regulatory Compliance Checking of Business Process Event Logs"</em> by Nick van Beest, Heerko Groefsema, Adrian Cryer, Guido Governatori, and Silvano Colombo Tosatto.<br />
+Dataset related to the evaluation of the paper <em>"Complete and Cross-Instance Regulatory Compliance Checking of Business Process Event Logs"</em> by Nick van Beest, Heerko Groefsema, Adrian Cryer, Guido Governatori, Silvano Colombo Tosatto and Hannah Burke<br />
   </p>
 </div>
 
 
+<!-- Contents -->
+## Contents
 
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-dataset">About The Dataset</a>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ol>
-</details>
-
-
-
-<!-- ABOUT THE DATASET -->
-## About The Dataset
-
-...
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- GETTING STARTED -->
-## Getting Started
-
-...
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-...
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
+- Example rules formatted for our event log compliance tool and explanations of their functionality
+- Compliance evaluation of event logs from the BPI challenges
+  - [BPI2016](https://data.4tu.nl/articles/dataset/BPI_Challenge_2016_Clicks_Logged_In/12674816?file=23991602)
+    - Rule templates and corresponding violating traces identified by our tool
+  - [BPI2019](https://data.4tu.nl/articles/dataset/BPI_Challenge_2019/12715853)
+    - Rule templates and corresponding violating traces identified by our tool
+    - Comparison to winning submission, [BPIC19](https://github.com/bptlab/bpic19)
+    - Comparison to implementation of same rules in [LogFire](https://github.com/havelund/logfire)
+- Results for a scalability analysis of our tool against the size of event log and number of obligations, derived from these BPI logs and rule templates
 
 
 <!-- LICENSE -->
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- CONTACT -->

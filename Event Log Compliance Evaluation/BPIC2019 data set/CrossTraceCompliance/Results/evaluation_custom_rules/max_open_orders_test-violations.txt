@@ -1,0 +1,1 @@
+{"Max Open Order Per User":[[vendorID_0110], [vendorID_0197], [vendorID_0264], [vendorID_0120], [vendorID_0372], [vendorID_0103], [vendorID_0278], [vendorID_0136], [vendorID_0246], [vendorID_0118], [vendorID_0106], [vendorID_0404], [vendorID_0127], [vendorID_0236], [vendorID_0104], [vendorID_0524], [vendorID_0108], [vendorID_0182], [vendorID_0150]]}

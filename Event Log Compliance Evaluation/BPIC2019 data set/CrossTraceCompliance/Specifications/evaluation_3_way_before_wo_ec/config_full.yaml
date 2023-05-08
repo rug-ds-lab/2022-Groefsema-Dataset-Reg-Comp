@@ -7,7 +7,7 @@ filter: >
 obligations:
   - name: (Record Invoice Receipt -> Clear Invoice, Single=False)
     type: maintenance
-    trigger: MATCH(Event == 'Clear Invoice')
+    trigger: "true"
     requirement: >
       INCDEC(
         Event == 'Record Invoice Receipt',
@@ -17,20 +17,16 @@ obligations:
     domain: [Key]
 
   - name: (Record Invoice Receipt -> Clear Invoice, Single=True)
-    type: achievement
+    type: maintenance
     trigger: MATCH(Event == 'Clear Invoice')
     requirement: >
-      MATCH(Event == 'Record Invoice Receipt') &&
-      BEFORE(
-        MATCH(Event == 'Record Invoice Receipt'),
-        MATCH(Event == 'Clear Invoice')
-      )
-    deadline: "false"
+      MATCH(Event == 'Record Invoice Receipt')
+    deadline: MATCH(Event == 'Record Invoice Receipt')
     domain: [Key]
 
   - name: (Record Goods Receipt -> Clear Invoice, Single=False)
     type: maintenance
-    trigger: MATCH(Event == 'Clear Invoice')
+    trigger: "true"
     requirement: >
       INCDEC(
         Event == 'Record Goods Receipt',
@@ -40,20 +36,16 @@ obligations:
     domain: [Key]
 
   - name: (Record Goods Receipt -> Clear Invoice, Single=True)
-    type: achievement
+    type: maintenance
     trigger: MATCH(Event == 'Clear Invoice')
     requirement: >
-      MATCH(Event == 'Record Goods Receipt') &&
-      BEFORE(
-        MATCH(Event == 'Record Goods Receipt'),
-        MATCH(Event == 'Clear Invoice')
-      )
-    deadline: "false"
+      MATCH(Event == 'Record Goods Receipt')
+    deadline: MATCH(Event == 'Record Goods Receipt')
     domain: [Key]
 
   - name: (Record Invoice Receipt -> Vendor creates invoice, Single=False)
     type: maintenance
-    trigger: MATCH(Event == 'Vendor creates invoice')
+    trigger: "true"
     requirement: >
       INCDEC(
         Event == 'Record Invoice Receipt',
@@ -64,7 +56,7 @@ obligations:
 
   - name: (Set Payment Block -> Remove Payment Block, Single=False)
     type: maintenance
-    trigger: MATCH(Event == 'Remove Payment Block')
+    trigger: "true"
     requirement: >
       INCDEC(
         Event == 'Set Payment Block',
