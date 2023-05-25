@@ -83,9 +83,46 @@ trait OptimizedPrecedenceObserver extends Monitor {
     }
   }
 
+  // obligation: (A -> B unless C, Single=False)
+  // Checks that for the given domian, the count of event B must be at most the count of event A at any time
+  // unless event C has occurred
+  // input 'name' is the obligation's unique name
+  def multipleException(name: String)(a: PC, b: PC, c:PC): Unit = {
+
+    // initialisation
+    if (!violations.contains(name)) violations += name -> Set()
+    var count = Map(): Map[String, Int] // The count of a events minus the count of b events for each domain. This must remain non-negative
+
+    val factC_sym = newSymbol('unsafe)
+    val factC = factC_sym(c.getVariables: _*) // fact for whether or not event c has occurred
+
+    // whenever event a happens, increment the count
+    "observe a" -- a |-> {
+      if (!(count isDefinedAt (get[String]('x)))) count += get[String]('x) -> 0 // initialise for domain if not already there
+      count += get[String]('x) -> (count(get[String]('x)) + 1)
+    }
+
+    "observe c" -- c |->{
+      factC
+    }
+
+    // whenever event b happens, decrement the count and check non-negative
+    "observe b" -- b & not(factC)|-> {
+      if (!(count isDefinedAt (get[String]('x)))) count += get[String]('x) -> 0 // initialise for domain if not already there
+      val result = count(get[String]('x)) - 1
+      count += get[String]('x) -> result
+      if (result < 0) { // if negative, insert violation for domain at obligation name
+        var set: Set[String] = violations.get(name).get
+        set += get[String]('x)
+        violations += name -> set
+      }
+    }
+  }
+
   // defines syntax:
   // -> means single
   // --> means multiple
+  // ~~>\ means multiple exception
   implicit def precedence(name: String) = new {
     implicit def --- (a: PC) = new {
       def ->(b: PC) {
@@ -93,6 +130,16 @@ trait OptimizedPrecedenceObserver extends Monitor {
       }
       def -->(b: PC) {
         multiple(name)(a, b)
+      }
+    }
+  }
+
+  implicit def precedenceException(name: String) = new {
+    implicit def ~~~(a: PC) = new {
+      implicit def ~~>(b: PC) = new {
+        def \(c: PC) {
+          multipleException(name)(a, b, c)
+        }
       }
     }
   }

@@ -97,7 +97,7 @@ domain: [CustomerId]
 ```yaml
 name: Invoice Receipt
 type: maintenance
-filter: MATCHONCE(ItemType != 'Service' && ItemCategory == '3-way match, invoice after GR')
+filter: ItemType != 'Service' && ItemCategory == '3-way match, invoice after GR'
 trigger: >
   LAST(Amount, Event == 'Record Invoice Receipt')!=null &&
   LAST(Amount, Event == 'Vendor creates invoice')!=null
@@ -127,7 +127,7 @@ domain: [Vendor]
 ```yaml
 name: Max PO Lifecycle
 type: maintenance
-filter: MATCHONCE(ItemType != 'Service')
+filter: ItemType != 'Service'
 trigger: >
   DAYS_BETWEEN(
     Event == 'Vendor creates invoice', 
@@ -171,7 +171,7 @@ name: (A -> B, Single=True)
 type: maintenance
 trigger: MATCH(Event == 'B')
 requirement: MATCH(Event == 'A')
-deadline: MATCH(Event == 'B')
+deadline: "true"
 domain: [PurchasingDocument, Item]
 ```
 

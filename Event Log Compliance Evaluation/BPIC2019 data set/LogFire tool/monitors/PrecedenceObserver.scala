@@ -123,9 +123,63 @@ trait PrecedenceObserver extends Monitor {
     }
   }
 
+
+  // obligation: (A -> B unless C, Single=False)
+  // Checks that for the given domian, the count of event B must be at most the count of event A at any time
+  // unless event C has occurred
+  // input 'name' is the obligation's unique name
+  def multipleException(name: String)(a: PC, b: PC, c:PC): Unit = {
+    // initialisation
+    if (!violations.contains(name)) violations += name -> Set()
+    var count = Map(): Map[String, Int] // The count of a events minus the count of b events for each domain. This must remain non-negative
+
+    val check_violation_sym = newSymbol('unsafe)
+    val check_violation = check_violation_sym(b.getVariables: _*) // fact for whether or not event b has just been seen (meaning we need to check for violation)
+
+    val factC_sym = newSymbol('unsafe)
+    val factC = factC_sym(c.getVariables: _*) // fact for whether or not event c has occurred
+
+    // whenever event a happens, increment the count
+    "observe a" -- a |-> {
+      if (!(count isDefinedAt (get[String]('x)))) count += get[String]('x) -> 0 // initialise for domain if not already there
+      count += get[String]('x) -> (count(get[String]('x)) + 1)
+    }
+
+    // whenever event b happens, decrement the count
+    "observe b" -- b |-> {
+      if (!(count isDefinedAt (get[String]('x)))) count += get[String]('x) -> 0 // initialise for domain if not already there
+      count += get[String]('x) -> (count(get[String]('x)) - 1)
+    }
+
+    // also whenever event b happens, insert check violation fact
+    "observe b" -- b |-> {
+      check_violation
+    }
+
+    // also whenever event b happens, insert check violation fact
+    "observe b" -- c |-> {
+      factC
+    }
+
+    // at eventComplete, if check violation is true
+    // check the count is non-negative
+    // and remove any check_violation
+    "check violation" -- eventComplete('x) & check_violation & not(factC) |-> {
+      not(check_violation)
+      if (count isDefinedAt (get[String]('x))) {
+        if (count(get[String]('x)) < 0) { // if negative, insert violation for domain at obligation name
+          var set: Set[String] = violations.get(name).get
+          set += get[String]('x)
+          violations += name -> set
+        }
+      }
+    }
+  }
+
   // defines syntax:
   // -> means single
   // --> means multiple
+  // ~~>\ means multiple exception
   implicit def precedence(name: String) = new {
     implicit def --- (a: PC) = new {
       def ->(b: PC) {
@@ -133,6 +187,16 @@ trait PrecedenceObserver extends Monitor {
       }
       def -->(b: PC) {
         multiple(name)(a, b)
+      }
+    }
+  }
+
+  implicit def precedenceException(name: String) = new {
+    implicit def ~~~(a: PC) = new {
+      implicit def ~~>(b: PC) = new {
+        def \(c: PC) {
+          multipleException(name)(a, b, c)
+        }
       }
     }
   }

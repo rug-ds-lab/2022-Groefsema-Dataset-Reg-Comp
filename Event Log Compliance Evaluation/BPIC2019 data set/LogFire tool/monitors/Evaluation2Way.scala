@@ -20,8 +20,8 @@ class Evaluation2Way extends PrecedenceObserver with EventMonitor {
   }
 
   override def getViolations(): Map[String, Set[String]] = violations
-  "Record Invoice Receipt -> Clear Invoice, Single=False" ---
-    'Record_Invoice_Receipt('x) --> 'Clear_Invoice('x)
+  "Record Invoice Receipt -> Clear Invoice, Single=False" ~~~
+    'Record_Invoice_Receipt('x) ~~> 'Clear_Invoice('x) \ 'Change_Approval_for_Purchase_Order('x)
 }
 
 class OptimizedEvaluation2Way extends OptimizedPrecedenceObserver with EventMonitor {
@@ -43,6 +43,6 @@ class OptimizedEvaluation2Way extends OptimizedPrecedenceObserver with EventMoni
   }
 
   override def getViolations(): Map[String, Set[String]] = violations
-  "Record Invoice Receipt -> Clear Invoice, Single=False" ---
-    'Record_Invoice_Receipt('x) --> 'Clear_Invoice('x)
+  "Record Invoice Receipt -> Clear Invoice, Single=False" ~~~
+    'Record_Invoice_Receipt('x) ~~> 'Clear_Invoice('x) \ 'Change_Approval_for_Purchase_Order('x)
 }

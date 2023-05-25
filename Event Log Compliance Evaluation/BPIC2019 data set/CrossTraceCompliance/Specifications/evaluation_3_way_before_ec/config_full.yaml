@@ -1,8 +1,6 @@
 filter: > 
-  MATCHONCE(
-    ItemCategory == '3-way match, invoice before GR' && 
+  ItemCategory == '3-way match, invoice before GR' && 
     DocumentType == 'EC Purchase order'
-  )
 
 obligations:
   - name: (Record Invoice Receipt -> Clear Invoice, Single=False)
@@ -43,7 +41,7 @@ obligations:
     trigger: MATCH(Event == 'Clear Invoice')
     requirement: >
       MATCH(Event == 'Record Goods Receipt')
-    deadline: MATCH(Event == 'Record Goods Receipt')
+    deadline: "true"
     domain: [Key]
 
   - name: (Vendor creates invoice -> Record Invoice Receipt, Single=True)
@@ -51,7 +49,7 @@ obligations:
     trigger: MATCH(Event == 'Record Invoice Receipt')
     requirement: >
       MATCH(Event == 'Vendor creates invoice')
-    deadline: MATCH(Event == 'Vendor creates invoice')
+    deadline: "true"
     domain: [Key]
 
   - name: (Set Payment Block -> Remove Payment Block, Single=True)
@@ -59,5 +57,5 @@ obligations:
     trigger: MATCH(Event == 'Remove Payment Block')
     requirement: >
       MATCH(Event == 'Set Payment Block')
-    deadline: MATCH(Event == 'Set Payment Block')
+    deadline: "true"
     domain: [Key]

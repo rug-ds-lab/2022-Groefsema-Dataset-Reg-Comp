@@ -1,4 +1,4 @@
-filter: MATCHONCE(ItemType == 'Consignment')
+filter: ItemType == 'Consignment'
 
 obligations:
   - name: (Create Purchase Order Item -> Record Goods Receipt, Single=False)
@@ -17,5 +17,5 @@ obligations:
     trigger: MATCH(Event == 'Record Goods Receipt')
     requirement: >
       MATCH(Event == 'Create Purchase Order Item')
-    deadline: MATCH(Event == 'Create Purchase Order Item')
+    deadline: "true"
     domain: [Key]

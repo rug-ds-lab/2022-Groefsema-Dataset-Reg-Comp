@@ -1,12 +1,12 @@
 obligations:
   - name: Max PO Lifecycle
     type: maintenance
-    filter: MATCHONCE(ItemType != 'Service')
+    filter: ItemType != 'Service'
     trigger: >
-      DAYS_BETWEEN(
+      notNull(DAYS_BETWEEN(
         Event == 'Vendor creates invoice', 
        Event == 'Clear Invoice'
-      ) >= 0
+      ))
     requirement: >
       DAYS_BETWEEN(
        Event == 'Vendor creates invoice', 

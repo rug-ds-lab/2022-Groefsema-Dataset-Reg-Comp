@@ -1,8 +1,6 @@
 filter: > 
-  MATCHONCE(
-    ItemCategory == '3-way match, invoice after GR' && 
+  ItemCategory == '3-way match, invoice after GR' && 
     DocumentType != 'EC Purchase order'
-  )
 
 obligations:
   - name: (Vendor creates invoice -> Record Invoice Receipt, Single=True)
@@ -10,7 +8,7 @@ obligations:
     trigger: MATCH(Event == 'Record Invoice Receipt')
     requirement: >
       MATCH(Event == 'Vendor creates invoice')
-    deadline: MATCH(Event == 'Vendor creates invoice')
+    deadline: "true"
     domain: [Key]
 
   - name: (Record Goods Receipt -> Clear Invoice, Single=False)
@@ -51,7 +49,7 @@ obligations:
     trigger: MATCH(Event == 'Change Approval for Purchase Order')
     requirement: >
       MATCH(Event == 'Create Purchase Order Item')
-    deadline: MATCH(Event == 'Create Purchase Order Item')
+    deadline: "true"
     domain: [Key]
 
   - name: (Create Purchase Order Item -> Vendor creates invoice, Single=True)
@@ -59,5 +57,5 @@ obligations:
     trigger: MATCH(Event == 'Vendor creates invoice')
     requirement: >
       MATCH(Event == 'Create Purchase Order Item')
-    deadline: MATCH(Event == 'Create Purchase Order Item')
+    deadline: "true"
     domain: [Key]

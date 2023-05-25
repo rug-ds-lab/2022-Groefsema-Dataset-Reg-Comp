@@ -1,5 +1,5 @@
 filter: >
-  MATCHONCE(ItemCategory == '2-way match')
+  ItemCategory == '2-way match'
 
 obligations:
   - name: (Record Invoice Receipt -> Clear Invoice, Single=False)
