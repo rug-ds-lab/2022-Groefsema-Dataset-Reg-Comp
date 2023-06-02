@@ -41,12 +41,13 @@ Dataset related to the evaluation of the paper <em>"Complete and Cross-Instance 
 ## Contents
 
 - Example rules formatted for our event log compliance tool and explanations of their functionality
+- Explanation and examples of how Update Functions are defined
 - Compliance evaluation of event logs from the BPI challenges
   - [BPI2016](https://data.4tu.nl/articles/dataset/BPI_Challenge_2016_Clicks_Logged_In/12674816?file=23991602)
     - Rule templates and corresponding violating traces identified by our tool
   - [BPI2019](https://data.4tu.nl/articles/dataset/BPI_Challenge_2019/12715853)
     - Rule templates and corresponding violating traces identified by our tool
-    - Comparison to winning submission, [BPIC19](https://github.com/bptlab/bpic19)
+    - Comparison to winning submission, [BPIC19 (DRP)](https://github.com/bptlab/bpic19)
     - Comparison to implementation of same rules in [LogFire](https://github.com/havelund/logfire)
 - Results for a scalability analysis of our tool against the size of event log and number of obligations, derived from these BPI logs and rule templates
 
