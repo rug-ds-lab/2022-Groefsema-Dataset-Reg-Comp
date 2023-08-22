@@ -42,6 +42,7 @@ Dataset related to the evaluation of the paper <em>"Complete and Cross-Instance 
 
 - Example rules formatted for our event log compliance tool and explanations of their functionality
 - Explanation and examples of how Update Functions are defined
+- Grammars for rule specification file and log metadata file
 - Compliance evaluation of event logs from the BPI challenges
   - [BPI2016](https://data.4tu.nl/articles/dataset/BPI_Challenge_2016_Clicks_Logged_In/12674816?file=23991602)
     - Rule templates and corresponding violating traces identified by our tool
